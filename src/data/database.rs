@@ -85,21 +85,6 @@ impl Database {
         todos
     }
 
-    pub fn get_active_todos(&self) -> Vec<&Todo> {
-        let mut todos: Vec<&Todo> = self.todos.values()
-            .filter(|todo| !todo.is_completed())
-            .collect();
-        todos.sort_by(|a, b| b.last_modified_at.cmp(&a.last_modified_at));
-        todos
-    }
-
-    pub fn get_completed_todos(&self) -> Vec<&Todo> {
-        let mut todos: Vec<&Todo> = self.todos.values()
-            .filter(|todo| todo.is_completed())
-            .collect();
-        todos.sort_by(|a, b| b.last_modified_at.cmp(&a.last_modified_at));
-        todos
-    }
 
     #[cfg(test)]
     pub fn new_in_memory() -> Result<Self> {
@@ -243,39 +228,5 @@ mod tests {
         
         // Check that active todos are sorted by last_modified_at ascending (oldest first)
         assert!(all_todos[0].last_modified_at <= all_todos[1].last_modified_at);
-    }
-
-    #[test]
-    fn test_get_active_todos() {
-        let mut db = create_test_database();
-        
-        let todo1 = create_test_todo("Active Todo", "Description 1");
-        let mut todo2 = create_test_todo("Completed Todo", "Description 2");
-        todo2.toggle_completion();
-        
-        db.insert_todo_for_test(todo1);
-        db.insert_todo_for_test(todo2);
-        
-        let active_todos = db.get_active_todos();
-        assert_eq!(active_todos.len(), 1);
-        assert_eq!(active_todos[0].subject, "Active Todo");
-        assert!(!active_todos[0].is_completed());
-    }
-
-    #[test]
-    fn test_get_completed_todos() {
-        let mut db = create_test_database();
-        
-        let todo1 = create_test_todo("Active Todo", "Description 1");
-        let mut todo2 = create_test_todo("Completed Todo", "Description 2");
-        todo2.toggle_completion();
-        
-        db.insert_todo_for_test(todo1);
-        db.insert_todo_for_test(todo2);
-        
-        let completed_todos = db.get_completed_todos();
-        assert_eq!(completed_todos.len(), 1);
-        assert_eq!(completed_todos[0].subject, "Completed Todo");
-        assert!(completed_todos[0].is_completed());
     }
 }

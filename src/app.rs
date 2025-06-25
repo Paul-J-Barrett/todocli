@@ -361,6 +361,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(unused_variables)]  // `todo_id` is used in test assertions
     fn test_close_confirm_dialog() {
         let mut app = create_test_app();
         

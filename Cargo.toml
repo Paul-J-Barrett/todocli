@@ -5,6 +5,12 @@ edition = "2021"
 description = "A TUI-based todo application with Tokyo Night theme"
 authors = ["Your Name <your.email@example.com>"]
 
+[build-dependencies]
+cc = "1.0"
+
+[build]
+windows = "build.rs"
+
 [dependencies]
 ratatui = "0.25"
 crossterm = "0.27"

@@ -52,10 +52,6 @@ impl Todo {
             "📝"
         }
     }
-
-    pub fn display_title(&self) -> String {
-        format!("{} {}", self.status_icon(), self.subject)
-    }
 }
 
 #[cfg(test)]
@@ -138,19 +134,6 @@ mod tests {
         
         todo.toggle_completion();
         assert_eq!(todo.status_icon(), incomplete_icon);
-    }
-
-    #[test]
-    fn test_display_title() {
-        let mut todo = Todo::new("Test Todo".to_string(), "Description".to_string());
-        
-        let incomplete_title = todo.display_title();
-        assert!(incomplete_title.contains("Test Todo"));
-        
-        todo.toggle_completion();
-        let completed_title = todo.display_title();
-        assert!(completed_title.contains("Test Todo"));
-        assert_ne!(incomplete_title, completed_title);
     }
 
     #[test]
